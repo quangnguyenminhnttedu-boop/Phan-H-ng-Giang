@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale:1.0">
+    <title>Chúc Mừng Sinh Nhật Phan Hương Giang!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <style>
+        /* CSS Reset & Setup */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+        }
+
+        /* --- PHẦN 1: MOCKUP --- */
+        #part1 {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: url('part1-bg.jpg') center center / cover no-repeat;
+            overflow: hidden;
+            transition: opacity 0.5s ease-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @keyframes rainbow-neon {
+            0%   { text-shadow: 0 0 10px #fff, 0 0 20px #80deea, 0 0 30px #80deea; }
+            25%  { text-shadow: 0 0 10px #fff, 0 0 20px #ff8a80, 0 0 30px #ff8a80; }
+            50%  { text-shadow: 0 0 10px #fff, 0 0 20px #b9f6ca, 0 0 30px #b9f6ca; }
+            75%  { text-shadow: 0 0 10px #fff, 0 0 20px #b388ff, 0 0 30px #b388ff; }
+            100% { text-shadow: 0 0 10px #fff, 0 0 20px #80deea, 0 0 30px #80deea; }
+        }
+        .title-neon {
+            position: relative;
+            z-index: 10;
+            font-family: 'Pacifico', cursive;
+            font-size: calc(2.5rem + 2.5vw);
+            color: #fff;
+            text-align: center;
+            animation: rainbow-neon 4s infinite linear;
+        }
+
+        .content-container-part1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            z-index: 5;
+        }
+        .mockup-card {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border-radius: 15px;
+            padding: 20px;
+            width: 250px;
+            height: 200px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .mockup-card h3 {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.5rem;
+            margin-top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 5px;
+        }
+        .mockup-card p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        #mockup-photo-card {
+            padding: 10px;
+            background: #fff;
+            height: auto;
+        }
+        #mockup-photo-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+        }
+        .enter-prompt {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 12;
+            color: #fff;
+            font-size: 1rem;
+            font-style: italic;
+            opacity: 0.8;
+            animation: pulse 2s infinite ease-in-out;
+            pointer-events: none;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        /* --- PHẦN 2: ẢNH BAY (NÂNG CẤP) --- */
+        #part2 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('star-dust-background.jpg') center center / cover no-repeat;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+            z-index: 100;
+            overflow: hidden;
+        }
+        
+        /* === THÊM LẠI CANVAS CHO HẠT SAO === */
+        #star-canvas-2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Nằm dưới chữ và ảnh bay */
+        }
+        
+        @keyframes sun-glow {
+            0%   { box-shadow: 0 0 20px 5px #ffeb3b, 0 0 30px 10px #ffc107, 0 0 40px 15px #ff9800; }
+            50%  { box-shadow: 0 0 30px 10px #ffc107, 0 0 40px 15px #ff9800, 0 0 50px 20px #ffeb3b; }
+            100% { box-shadow: 0 0 20px 5px #ffeb3b, 0 0 30px 10px #ffc107, 0 0 40px 15px #ff9800; }
+        }
+        .floating-photo {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            opacity: 0;
+            z-index: 2;
+            animation: sun-glow 3s infinite linear;
+        }
+
+        .bouncing-text {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            pointer-events: none;
+        }
+        .bouncing-text span {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 0 0 10px #ff4081, 0 0 20px #ff4081, 0 0 30px #f50057;
+            margin: 0 3px;
+        }
+
+        @keyframes sparkle-animation {
+            0% { transform: scale(0) rotate(0); opacity: 0; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff, 0 0 20px #fff;
+            animation: sparkle-animation 2s infinite;
+            z-index: 10;
+        }
+        .sparkle.s1 { top: 20%; left: 30%; animation-delay: 0s; }
+        .sparkle.s2 { top: 60%; left: 70%; animation-delay: 0.7s; }
+        .sparkle.s3 { top: 40%; left: 80%; animation-delay: 1.4s; }
+        .sparkle.s4 { top: 80%; left: 10%; animation-delay: 2.1s; }
+
+
+        /* --- PHẦN 3: THẺ CHÚC THẬT --- */
+        #part3 {
+            position: relative; 
+            width: 100%;
+            height: 100vh;
+            background: url('star-dust-background.jpg') center center / cover no-repeat;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+            z-index: 100;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes blink-border-plus {
+            0%   { border-color: #fff; box-shadow: 0 0 50px #fff, 0 0 80px #4dd2ff; transform: scale(1); }
+            50%  { border-color: #80deea; box-shadow: 0 0 60px 20px #80deea, 0 0 100px 30px #b388ff; transform: scale(1.03); }
+            100% { border-color: #fff; box-shadow: 0 0 50px #fff, 0 0 80px #4dd2ff; transform: scale(1); }
+        }
+        #main-photo {
+            max-width: 35vw;
+            max-height: 45vh;
+            border: 5px solid #fff;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            z-index: 10;
+            animation: blink-border-plus 2s infinite ease-in-out;
+        }
+        
+        .card-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .magic-card {
+            width: 250px;
+            height: 250px;
+            margin: 0 15px;
+            background-color: transparent;
+            perspective: 1000px;
+            cursor: pointer;
+            z-index: 10;
+            position: relative;
+        }
+        .magic-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .magic-card.is-flipped .magic-card-inner {
+            transform: rotateY(180deg);
+        }
+        .magic-card-front,
+        .magic-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .magic-card-front {
+            background: linear-gradient(135deg, #f7b733 0%, #fc4a1a 100%);
+            color: white;
+            font-family: 'Pacifico', cursive;
+        }
+        .magic-card-front h3 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        .card-q-mark {
+            font-size: 6rem;
+            line-height: 1;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 4px 4px 0px #000000a0;
+        }
+        .magic-card-back {
+            background: #fefef2;
+            color: #333;
+            transform: rotateY(180deg);
+            padding: 20px;
+            border: 10px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(45deg, #fc4a1a, #f7b733, #4a90e2, #f53844, #9013fe);
+        }
+        .magic-card-back h3 {
+            font-family: 'Pacifico', cursive;
+            color: #d94a1a;
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .magic-card-back p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            line-height: 1.4;
+            flex-grow: 1;
+            margin: 0;
+        }
+        #final-enter-prompt {
+            display: none;
+        }
+
+        /* --- PHẦN 4 (MÀN KẾT) --- */
+        #part4 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            z-index: 200;
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes glitter {
+            0%   { text-shadow: 0 0 10px #ff00de, 0 0 20px #ff00de, 0 0 30px #ff00de, 0 0 40px #00f, 0 0 70px #00f, 0 0 80px #00f, 0 0 100px #00f; }
+            100% { text-shadow: 0 0 10px #ff00de, 0 0 20px #ff00de, 0 0 30px #ff00de, 0 0 40px #00f, 0 0 70px #00f, 0 0 80px #00f, 0 0 100px #00f, 0 0 5px #fff, 0 0 10px #fff; }
+        }
+        .final-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 6rem;
+            color: #fff;
+            text-align: center;
+            animation: glitter 1s infinite alternate;
+        }
+        .final-subtitle {
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.8;
+            margin-top: 20px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="part1">
+        <h1 class="title-neon">Chúc Mừng Sinh Nhật<br>Phan Hương Giang!</h1>
+        <div class="content-container-part1">
+            <div class="mockup-card"><h3>Thân gửi</h3><p>Đây là dự án t ấp ủ từ ngày t biết sinh nhật Giang đấy , do t học hành chưa đầy đủ nên nó chưa hoàn hảo lắm nhưng mà vẫn muốn Giang nhận</p></div>
+            <div class="mockup-card" id="mockup-photo-card"><img src="chiec-anh-cua-giang.jpg" alt="Ảnh demo"></div>
+            <div class="mockup-card"><h3>Ký gửi</h3><p>Gửi đến người bạn đầu tiên và duy nhất mà t quen ở môi trường Bách Khoa aka Phan Hương Giang</p></div>
+        </div>
+        <div class="enter-prompt">Nhấn Enter để tiếp tục</div>
+    </div>
+
+    <div id="part2">
+        <canvas id="star-canvas-2"></canvas>
+        
+        <div class="bouncing-text" id="bouncing-text-container"></div>
+        <div id="floating-photos-container"></div>
+        <div class="sparkle s1"></div>
+        <div class="sparkle s2"></div>
+        <div class="sparkle s3"></div>
+        <div class="sparkle s4"></div>
+        <div class="enter-prompt">Nhấn Enter để tiếp tục</div>
+    </div>
+
+    <div id="part3">
+        <img id="main-photo" src="chiec-anh-cua-giang.jpg" alt="Chúc mừng sinh nhật!">
+        <div class="card-container">
+            <div class="magic-card"><div class="magic-card-inner"><div class="magic-card-front"><h3>Món quà 1</h3><div class="card-q-mark">?</div></div><div class="magic-card-back"><h3>Gửi đến cô gái họ Phan</h3><p>Chúc mừng Giang đã vào hội người trưởng thành nhé !!!</p></div></div></div>
+            <div class="magic-card"><div class="magic-card-inner"><div class="magic-card-front"><h3>Món quà 2</h3><div class="card-q-mark">?</div></div><div class="magic-card-back"><h3>Bớt lạnh lùng đi</h3><p>Tuổi mới mong Giang sống vẫn đẳng cấp như vậy nhưng mà đừng bơ t nữa được không !?</p></div></div></div>
+            <div class="magic-card"><div class="magic-card-inner"><div class="magic-card-front"><h3>Món quà 3</h3><div class="card-q-mark">?</div></div><div class="magic-card-back"><h3>Happy Birthday!</h3><p>Trời sinh Giang ngày bừng nắng hạ , nụ cười Giang sưởi ấm ngày đông , Bước theo Giang ta bình thiên hạ , xin Giang cười mãi mãi được không</p></div></div></div>
+        </div>
+        <div class="enter-prompt" id="final-enter-prompt" style="display: none;">Nhấn Enter lần nữa...</div>
+    </div>
+
+    <div id="part4">
+        <h1 class="final-title">Cute không ?</h1>
+        <p class="final-subtitle">(Nhấn Enter để xem lại từ đầu)</p>
+    </div>
+
+
+    <script>
+        const part1 = document.getElementById('part1');
+        const part2 = document.getElementById('part2');
+        const part3 = document.getElementById('part3');
+        const part4 = document.getElementById('part4');
+        
+        const finalEnterPrompt = document.getElementById('final-enter-prompt');
+        const cards = document.querySelectorAll('.magic-card');
+
+        let currentPart = 1;
+
+        // Xử lý nhấn phím
+        function handleKeyPress(e) {
+            if (e.key !== 'Enter') {
+                return;
+            }
+
+            if (currentPart === 1) {
+                part1.style.opacity = '0';
+                part2.style.display = 'block';
+                setTimeout(() => {
+                    part1.style.display = 'none';
+                    part2.style.opacity = '1';
+                    initFloatingPhotos();
+                    initBouncingText();
+                    initStarEffect(); // <-- ĐÃ THAY LẠI HÀM HẠT SAO
+                }, 500);
+                currentPart = 2;
+            } else if (currentPart === 2) {
+                part2.style.opacity = '0';
+                part3.style.display = 'flex';
+                setTimeout(() => {
+                    part2.style.display = 'none';
+                    part3.style.opacity = '1';
+                    gsap.from("#main-photo", { opacity: 0, scale: 0.1, y: -500, rotation: -360, duration: 1.2, ease: "back.out(1.7)", delay: 0.1 });
+                    gsap.from(".magic-card", {
+                        opacity: 0, scale: 0.1,
+                        x: (i) => (i === 0 ? -window.innerWidth / 2 : (i === 1 ? window.innerWidth / 2 : -window.innerWidth / 2)),
+                        y: (i) => (i === 0 ? -window.innerHeight / 2 : (i === 1 ? window.innerHeight / 2 : -window.innerHeight / 4)),
+                        rotation: (i) => (i % 2 === 0 ? 360 : -360),
+                        duration: 1.5, ease: "elastic.out(1, 0.5)", stagger: 0.3, delay: 0.5
+                    });
+                }, 500);
+                currentPart = 3;
+            
+            } else if (currentPart === 3.5) { // Trạng thái sẵn sàng (đã lật hết thẻ)
+                part3.style.opacity = '0';
+                part4.style.display = 'flex';
+                finalEnterPrompt.style.display = 'none';
+                setTimeout(() => {
+                    part3.style.display = 'none';
+                    part4.style.opacity = '1';
+                    gsap.from(".final-title", { opacity: 0, scale: 0.5, duration: 1.5, ease: "power3.out" });
+                    gsap.from(".final-subtitle", { opacity: 0, y: 20, duration: 1.5, delay: 0.5, ease: "power3.out" });
+                }, 1000);
+                currentPart = 4;
+            
+            } else if (currentPart === 4) {
+                location.reload(); // Tải lại trang
+            }
+        }
+        window.addEventListener('keydown', handleKeyPress);
+
+
+        // ===============================================
+        // === TOÀN BỘ LOGIC HẠT SAO ĐÃ ĐƯỢC THÊM LẠI ===
+        // ===============================================
+        const canvas = document.getElementById('star-canvas-2');
+        // Kiểm tra xem canvas có tồn tại không (phòng lỗi)
+        const ctx = canvas ? canvas.getContext('2d') : null;
+        if (canvas) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        let particles = [];
+        const numParticles = 500;
+        const center = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        let animationPhase = 'converge';
+
+        class Particle {
+            constructor() {
+                if (Math.random() > 0.5) {
+                    this.x = Math.random() < 0.5 ? 0 : window.innerWidth;
+                    this.y = Math.random() * window.innerHeight;
+                } else {
+                    this.x = Math.random() * window.innerWidth;
+                    this.y = Math.random() < 0.5 ? 0 : window.innerHeight;
+                }
+                this.size = Math.random() * 2 + 1;
+                this.color = 'white';
+                this.speed = Math.random() * 3 + 2;
+                let angle = Math.atan2(center.y - this.y, center.x - this.x);
+                this.vx = Math.cos(angle) * this.speed;
+                this.vy = Math.sin(angle) * this.speed;
+            }
+            update() {
+                if (animationPhase === 'converge') {
+                    let angle = Math.atan2(center.y - this.y, center.x - this.x);
+                    this.vx += Math.cos(angle) * 0.5;
+                    this.vy += Math.sin(angle) * 0.5;
+                    let vel = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                    if (vel > 15) {
+                        this.vx = (this.vx / vel) * 15;
+                        this.vy = (this.vy / vel) * 15;
+                    }
+                } else if (animationPhase === 'explode') {
+                    this.vx *= 0.98;
+                    this.vy *= 0.98;
+                }
+                this.x += this.vx;
+                this.y += this.vy;
+            }
+            draw() {
+                if(ctx) {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        function initStarEffect() {
+            if (!ctx) return; // Không chạy nếu không có canvas
+            particles = [];
+            animationPhase = 'converge';
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+            animateStars();
+        }
+
+        function animateStars() {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let allConverged = true;
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+                if (animationPhase === 'converge') {
+                    let dist = Math.hypot(p.x - center.x, p.y - center.y);
+                    if (dist > 20) {
+                        allConverged = false;
+                    }
+                }
+            });
+            if (allConverged && animationPhase === 'converge') {
+                triggerExplosion();
+            }
+            if (part2.style.display !== 'none' && part2.style.opacity === '1') {
+                requestAnimationFrame(animateStars);
+            }
+        }
+
+        function triggerExplosion() {
+            animationPhase = 'explode';
+            for (let i = 0; i < 300; i++) {
+                let p = new Particle();
+                p.x = center.x;
+                p.y = center.y;
+                let angle = Math.random() * Math.PI * 2;
+                let speed = Math.random() * 20 + 10;
+                p.vx = Math.cos(angle) * speed;
+                p.vy = Math.sin(angle) * speed;
+                p.size = Math.random() * 3 + 1;
+                particles.push(p);
+            }
+            particles = particles.filter(p => p.x === center.x);
+        }
+        // ===============================================
+        // === KẾT THÚC LOGIC HẠT SAO ===
+        // ===============================================
+
+
+        // --- Logic Phần 2: Ảnh bay (GSAP) ---
+        const photoSources = [
+            'giang-1.jpg', 'giang-2.jpg', 'giang-3.jpg', 'giang-4.jpg', 'giang-5.jpg',
+        ];
+
+        function initFloatingPhotos() {
+            const container = document.getElementById('floating-photos-container');
+            container.innerHTML = '';
+            photoSources.forEach((src) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.classList.add('floating-photo');
+                container.appendChild(img);
+                gsap.set(img, { x: Math.random() * (window.innerWidth - 150), y: Math.random() * (window.innerHeight - 150), scale: Math.random() * 0.5 + 0.5, rotation: Math.random() * 360, opacity: 0 });
+                gsap.to(img, { opacity: 1, x: () => "+=" + (Math.random() * 400 - 200), y: () => "+=" + (Math.random() * 400 - 200), rotation: () => "+=" + (Math.random() * 720 - 360), scale: () => Math.random() * 0.5 + 0.5, duration: () => Math.random() * 10 + 5, ease: "power1.easeInOut", repeat: -1, yoyo: true, delay: Math.random() * 3 });
+                gsap.to(img, { x: () => Math.random() * (window.innerWidth - 150), y: () => Math.random() * (window.innerHeight - 150), duration: 30, repeat: -1, yoyo: true, ease: "sine.easeInOut" });
+            });
+        }
+
+        // --- Logic Phần 2: Chữ nhún nhảy (GSAP) ---
+        function initBouncingText() {
+            const textContainer = document.getElementById('bouncing-text-container');
+            if (textContainer.childElementCount > 0) return;
+            
+            const text = "Hương Giang in your Area";
+            text.split('').forEach(char => {
+                const span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                textContainer.appendChild(span);
+            });
+
+            gsap.fromTo(textContainer.children,
+                { y: 0 },
+                { y: -20, duration: 0.5, ease: "power1.inOut", repeat: -1, yoyo: true, stagger: { each: 0.1, from: "start", repeat: -1 } }
+            );
+        }
+
+        // --- Logic Phần 3: Lật Thẻ ---
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('is-flipped');
+                
+                if (currentPart === 3 || currentPart === 3.5) { 
+                    let flippedCount = document.querySelectorAll('.magic-card.is-flipped').length;
+                    
+                    if (flippedCount === cards.length) {
+                        finalEnterPrompt.style.display = 'block';
+                        currentPart = 3.5;
+                    } else {
+                        finalEnterPrompt.style.display = 'none';
+                        currentPart = 3;
+                    }
+                }
+            });
+        });
+
+        // Đảm bảo kích thước window thay đổi
+        window.addEventListener('resize', () => {
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                center.x = window.innerWidth / 2;
+                center.y = window.innerHeight / 2;
+            }
+        });
+
+    </script>
+</body>
+</html>
